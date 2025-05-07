@@ -1,0 +1,25 @@
+### Test GET / website
+
+GET http://localhost:8484
+
+### test the GET /dashboard
+
+GET http://localhost:8484/dashboard
+
+### testing the GET /api/data api call
+GET http://localhost:8484/api/data
+
+### DATA ENDPOINT FOR ADDING A USER
+
+POST http://localhost:8484/api/data
+Content-Type: application/json
+
+{
+    "name": "Fausta",
+    "age": 28,
+    "status": "married"
+}
+
+### DELETE USER
+
+DELETE http://localhost:8484/api/data
