@@ -15,7 +15,7 @@ const __dirname = dirname(__filename)
 
 //MIDDLEWARE
 
-app.use(express.join()) // makes our app interprete json calls
+app.use(express.json()) // makes our app interprete json calls
 
 // Serves the HTML file from the /public directory.
 //Tells express to serve all files from the public folder as static assets/file. Any requests for the css files will be resolved to the public directory.

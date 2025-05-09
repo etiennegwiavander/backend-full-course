@@ -4,7 +4,7 @@ const db = new DatabaseSync(':memory:') // This can't be used for production bec
 
 // Execute SQL statements form strings
 db.exec(`
-    CREATE TABLE user (
+    CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
         username TEXT UNIQUE,
         password TEXT
@@ -16,8 +16,10 @@ db.exec(`
         user_id INTEGER,
         task TEXT,
         complete BOOLEAN DEFAULT 0,
-        FOREIGN KEY(user_id) REFERENCES user(id)
+        FOREIGN KEY(user_id) REFERENCES users(id)
     )
 `)
+
+
 
 export default db
