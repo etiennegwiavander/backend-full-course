@@ -40,7 +40,13 @@ router.post('/register', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-    const {username, password} = req.body
+    // we get their email, and we look up the password associated with that email in the database.
+    // but we get it back and see it's encrypted, which means that we cannot compare it ot the one the user just used when trying to login
+    // so what we can do, is again, one way encrypt the password the user just entered
+
+
+    const {username, password} = req.body // we destructure the username and password because we want to check the database for existing user that matches the username and we need retrive the hashed password and compare it with hashed password the user used when signing in.
+
     console.log(username, password)
     res.sendStatus(201)
 
