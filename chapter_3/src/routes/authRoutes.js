@@ -44,11 +44,18 @@ router.post('/login', (req, res) => {
     // but we get it back and see it's encrypted, which means that we cannot compare it ot the one the user just used when trying to login
     // so what we can do, is again, one way encrypt the password the user just entered
 
-
     const {username, password} = req.body // we destructure the username and password because we want to check the database for existing user that matches the username and we need retrive the hashed password and compare it with hashed password the user used when signing in.
 
-    console.log(username, password)
-    res.sendStatus(201)
+    try {
+        const getUser = db.prepare('SELECT * FROM users WHERE username = ?')
+        const user = getUser.get(username)
+
+        if(!user){return res.status(404).send({message: "User not found"})}
+        
+    } catch (err) {
+        console.log(err.message)
+        res.sendStatus(503)
+    }
 
 })
 
