@@ -15,7 +15,7 @@ router.post('/register', (req, res) => {
     // encrypt the password
     const hashedPassword = bcrypt.hashSync(password, 8)
     
-    // To save the newuser and hashed passward to the db
+    // To save the newuser and hashed password to the db
     try {
         const insertUser = db.prepare(`INSERT INTO users (username, password) VALUES (?, ?)`) //the prepare method allows us to inject some values into the SQL querry
         const result = insertUser.run(username, hashedPassword)
@@ -49,9 +49,17 @@ router.post('/login', (req, res) => {
     try {
         const getUser = db.prepare('SELECT * FROM users WHERE username = ?')
         const user = getUser.get(username)
-
+        //if we cannot find a user associated with that username, return out of the function
         if(!user){return res.status(404).send({message: "User not found"})}
-        
+
+        const passwordIsValid = bcrypt.compareSync(password, user.password)
+        // if the password does not match, return out of the function
+        if (!passwordIsValid){return res.status(401).send({message:"Invalid password!"}) }
+
+        //Then we have a successful authentication
+        const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '24h'})
+        res.json({ token })
+        console.log(user)
     } catch (err) {
         console.log(err.message)
         res.sendStatus(503)
