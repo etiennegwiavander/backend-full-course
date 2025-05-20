@@ -13,7 +13,11 @@ router.get('/', (req, res) => {
 
 //create new todos
 router.get('/', (req, res) => {
+    const { task } = req.body
+    const insertTodo = db.prepare(`INSERT INTO todos (user_id, task) VALUES (?, ?)`)
+    insertTodo.run(req.userId, task)
 
+    res.json({ id: insertTodo.lastID, task, complete: 0 })
 })
 
 // update a todo
